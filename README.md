@@ -11,7 +11,7 @@
 
 **Two-pass scientific preprint compliance, live citation verification, and SHA-256 cryptographic hard gates for [Google Antigravity](https://antigravity.google).**
 
-[Why `rxiv-gate`](#why-rxiv-gate-exists) · [Live Screenshots](#see-rxiv-gate-in-action) · [The 6 Hard Gates](#the-6-hard-gates) · [30-Second Install](#installation) · [CLI Usage](#cli-usage-single-file-or-directory-mode) · [Social Media Kit](docs/SOCIAL_MEDIA_KIT.md)
+[Landing Page](https://deesatzed.github.io/rxiv-gate/) · [Why `rxiv-gate`](#why-rxiv-gate-exists) · [Live Screenshots](#see-rxiv-gate-in-action) · [The 6 Hard Gates](#the-6-hard-gates) · [30-Second Install](#installation) · [CLI Usage](#cli-usage-single-file-or-directory-mode) · [Social Media Kit](docs/SOCIAL_MEDIA_KIT.md)
 
 </div>
 

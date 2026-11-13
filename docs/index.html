@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rxiv-gate — Two-Pass Preprint Compliance &amp; Cryptographic SHA-256 Hard Gate for Google Antigravity</title>
+  <meta name="description" content="Open-source two-pass scientific preprint compliance, live Crossref/DataCite/PubMed/arXiv title &amp; author verification, and SHA-256 cryptographic hard gates for Google Antigravity." />
+
+  <!-- OpenGraph / Social Media Sharing -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://deesatzed.github.io/rxiv-gate/" />
+  <meta property="og:title" content="rxiv-gate — Cryptographic Preprint Readiness &amp; Citation Gate for Google Antigravity" />
+  <meta property="og:description" content="Enforces 6 deterministic hard gates, 34 Science Plugin database license checks, live DOI title/author verification, and a 2-pass SHA-256 release seal for arXiv, bioRxiv, medRxiv, and ChemRxiv." />
+  <meta property="og:image" content="https://deesatzed.github.io/rxiv-gate/social-preview.png" />
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="rxiv-gate — Two-Pass Preprint Compliance &amp; SHA-256 Hard Gate" />
+  <meta name="twitter:description" content="Catch real-DOI/wrong-paper hallucinations, verify 34 Science Plugin DB citations, and cryptographically seal preprints in Google Antigravity." />
+  <meta name="twitter:image" content="https://deesatzed.github.io/rxiv-gate/social-preview.png" />
+
+  <!-- Scientific Publishing Typography: STIX Two Text + Source Sans 3 + Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&amp;family=STIX+Two+Text:ital,wght@0,500;0,600;0,700;1,400&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-vellum: #090E1A;
+      --bg-paper: #111A2E;
+      --bg-ledger: #0D1526;
+      --bg-ledger-elevated: #17233B;
+      --ink-primary: #F1F5F9;
+      --ink-secondary: #CBD5E1;
+      --ink-muted: #94A3B8;
+      --ledger-text: #F8FAFC;
+      --ledger-secondary: #CBD5E1;
+      --ledger-muted: #94A3B8;
+      --seal-emerald: #34D399;
+      --seal-emerald-bright: #10B981;
+      --seal-emerald-surface: #064E3B;
+      --reject-vermilion: #FCA5A5;
+      --reject-vermilion-bright: #F87171;
+      --reject-vermilion-surface: #450A0A;
+      --warn-amber: #FCD34D;
+      --warn-amber-bright: #FBBF24;
+      --rule-hairline: #1E2D47;
+      --rule-ledger: #283A5A;
+      --font-display: 'STIX Two Text', Georgia, serif;
+      --font-sans: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'Fira Code', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --shadow-elevated: 0 16px 36px -10px rgba(2, 6, 15, 0.55), 0 4px 12px -3px rgba(2, 6, 15, 0.35);
+      --shadow-ledger: 0 22px 48px -12px rgba(2, 6, 15, 0.7);
+    }
+
+    /* Browser Surface Theming */
+    ::selection {
+      background-color: #10B981;
+      color: #06281E;
+    }
+    html {
+      scroll-behavior: smooth;
+      caret-color: var(--seal-emerald);
+      scrollbar-width: thin;
+      scrollbar-color: #334155 var(--bg-vellum);
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-vellum);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 5px;
+      border: 2px solid var(--bg-vellum);
+    }
+    :focus-visible {
+      outline: 2px solid var(--seal-emerald);
+      outline-offset: 3px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-vellum);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--seal-emerald);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.22em;
+      transition: color 160ms ease;
+    }
+    a:hover {
+      color: #6EE7B7;
+    }
+
+    /* Top Archival Header Bar */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background-color: rgba(9, 14, 26, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule-hairline);
+    }
+    .header-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0.9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: var(--ink-primary);
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+    }
+    .brand-version {
+      font-size: 0.78rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      background-color: var(--seal-emerald-surface);
+      color: var(--seal-emerald);
+      border: 1px solid rgba(11, 110, 79, 0.3);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+    .nav-links a:hover {
+      color: var(--seal-emerald);
+    }
+    .btn-github {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--bg-ledger);
+      color: var(--ledger-text) !important;
+      padding: 0.48rem 0.95rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--bg-ledger);
+      transition: background-color 160ms ease, transform 160ms ease;
+    }
+    .btn-github:hover {
+      background-color: var(--seal-emerald);
+      border-color: var(--seal-emerald);
+      transform: translateY(-1px);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* First Viewport: Editorial Dossier + Live Interactive Seal Ledger */
+    .hero-section {
+      padding: 4rem 0 4.5rem;
+      border-bottom: 1px solid var(--rule-hairline);
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 3.25rem;
+      align-items: start;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.35rem, 4.1vw, 3.55rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--ink-primary);
+      text-wrap: balance;
+      margin-bottom: 1.35rem;
+    }
+    .hero-lead {
+      font-size: 1.2rem;
+      color: var(--ink-secondary);
+      max-width: 64ch;
+      margin-bottom: 1.75rem;
+    }
+    .install-box {
+      background-color: var(--bg-ledger);
+      color: var(--ledger-text);
+      border-radius: 8px;
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--rule-ledger);
+      box-shadow: var(--shadow-elevated);
+      margin-bottom: 1.5rem;
+    }
+    .install-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+      font-size: 0.84rem;
+      color: var(--ledger-muted);
+    }
+    .install-cmd {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #A7F3D0;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: var(--bg-ledger-elevated);
+      color: var(--ledger-secondary);
+      border: 1px solid var(--rule-ledger);
+      border-radius: 5px;
+      padding: 0.25rem 0.65rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    }
+    .copy-btn:hover {
+      background-color: #1E293B;
+      color: #FFFFFF;
+      border-color: #475569;
+    }
+    .copy-btn[data-copied="true"] {
+      background-color: #064E3B;
+      color: #A7F3D0;
+      border-color: #10B981;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      align-items: center;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #34D399;
+      color: #042F24 !important;
+      padding: 0.72rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: var(--shadow-elevated);
+      transition: background-color 160ms ease, transform 160ms ease;
+    }
+    .btn-primary:hover {
+      background-color: #6EE7B7;
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: var(--bg-paper);
+      color: var(--ink-primary) !important;
+      padding: 0.72rem 1.2rem;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--rule-ledger);
+      transition: border-color 160ms ease, background-color 160ms ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--seal-emerald);
+      background-color: var(--bg-ledger-elevated);
+    }
+
+    /* Interactive 1-Byte Drift Simulator Panel */
+    .simulator-card {
+      background-color: var(--bg-ledger);
+      color: var(--ledger-text);
+      border-radius: 10px;
+      border: 1px solid var(--rule-ledger);
+      box-shadow: var(--shadow-ledger);
+      overflow: hidden;
+    }
+    .simulator-topbar {
+      background-color: var(--bg-ledger-elevated);
+      padding: 0.85rem 1.15rem;
+      border-bottom: 1px solid var(--rule-ledger);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .simulator-title {
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      color: var(--ledger-secondary);
+      font-weight: 500;
+    }
+    .drift-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background-color: #1E293B;
+      color: #F8FAFC;
+      border: 1px solid #475569;
+      padding: 0.35rem 0.75rem;
+      border-radius: 5px;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 160ms ease;
+    }
+    .drift-toggle-btn:hover {
+      background-color: #334155;
+      border-color: #94A3B8;
+    }
+    .drift-toggle-btn[aria-pressed="true"] {
+      background-color: #7F1D1D;
+      border-color: #F87171;
+      color: #FEE2E2;
+    }
+
+    .simulator-body {
+      padding: 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.83rem;
+      line-height: 1.65;
+    }
+    .chain-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.5rem 0.65rem;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.03);
+      margin-bottom: 0.45rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .chain-label {
+      color: var(--ledger-secondary);
+      font-weight: 500;
+    }
+    .chain-hash {
+      color: #6EE7B7;
+      font-size: 0.8rem;
+    }
+    .chain-hash.drifted {
+      color: var(--reject-vermilion-bright);
+      text-decoration: underline wavy var(--reject-vermilion-bright);
+    }
+    .hook-verdict-banner {
+      margin-top: 1rem;
+      padding: 0.85rem 1rem;
+      border-radius: 6px;
+      background-color: #064E3B;
+      border: 1px solid #10B981;
+      color: #ECFDF5;
+      transition: background-color 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .hook-verdict-banner.blocked {
+      background-color: #450A0A;
+      border-color: #EF4444;
+      color: #FEE2E2;
+    }
+    .hook-verdict-title {
+      font-weight: 600;
+      font-size: 0.86rem;
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .hook-verdict-detail {
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: #D1FAE5;
+    }
+    .hook-verdict-banner.blocked .hook-verdict-detail {
+      color: #FECACA;
+    }
+
+    /* Section Spacing & Headings (Zero Kickers/Eyebrows per Craft Floor) */
+    section {
+      padding: 4.5rem 0;
+      border-bottom: 1px solid var(--rule-hairline);
+    }
+    .section-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 3vw, 2.45rem);
+      font-weight: 700;
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      color: var(--ink-primary);
+      margin-bottom: 0.85rem;
+      text-wrap: balance;
+    }
+    .section-intro {
+      color: var(--ink-secondary);
+      max-width: 70ch;
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Forensic Case Study Section (Asymmetric 2-Column) */
+    .forensic-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    .forensic-dossier {
+      background-color: var(--bg-paper);
+      border: 1px solid var(--rule-hairline);
+      border-radius: 8px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-elevated);
+    }
+    .forensic-dossier h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      margin-bottom: 0.85rem;
+      color: var(--ink-primary);
+    }
+    .forensic-dossier p {
+      color: var(--ink-secondary);
+      margin-bottom: 1.15rem;
+      max-width: 65ch;
+    }
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+      margin-top: 1rem;
+    }
+    .diff-table th,
+    .diff-table td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-top: 1px solid var(--rule-hairline);
+      vertical-align: top;
+    }
+    .diff-table th {
+      width: 34%;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+    .diff-bad {
+      color: var(--reject-vermilion);
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+    }
+    .diff-good {
+      color: var(--seal-emerald);
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+    }
+    .screenshot-frame {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--rule-ledger);
+      box-shadow: var(--shadow-ledger);
+      background-color: var(--bg-ledger);
+    }
+    .screenshot-frame img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* 6 Hard Gates Specification Ledger Table (Avoids Card Grid Scaffold) */
+    .ledger-table-wrap {
+      background-color: var(--bg-paper);
+      border: 1px solid var(--rule-hairline);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: var(--shadow-elevated);
+      overflow-x: auto;
+    }
+    .gates-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 780px;
+    }
+    .gates-table thead th {
+      background-color: var(--bg-ledger-elevated);
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: left;
+      padding: 0.95rem 1.2rem;
+      border-bottom: 1px solid var(--rule-ledger);
+    }
+    .gates-table tbody td {
+      padding: 1.15rem 1.2rem;
+      border-bottom: 1px solid var(--rule-hairline);
+      vertical-align: top;
+      color: var(--ink-secondary);
+      font-size: 0.98rem;
+    }
+    .gates-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    .gates-table tbody tr:hover {
+      background-color: rgba(52, 211, 153, 0.04);
+    }
+    .gate-id-pill {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #6EE7B7;
+      background-color: #064E3B;
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      padding: 0.22rem 0.55rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .error-code-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-top: 0.45rem;
+    }
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      background-color: var(--reject-vermilion-surface);
+      color: var(--reject-vermilion);
+      border: 1px solid rgba(248, 113, 113, 0.35);
+      padding: 0.1rem 0.45rem;
+      border-radius: 4px;
+    }
+    .enforcement-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--reject-vermilion);
+      white-space: nowrap;
+    }
+
+    /* Interactive Server Screening Matrix Tabs */
+    .server-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--rule-hairline);
+      padding-bottom: 0.85rem;
+    }
+    .server-tab-btn {
+      background-color: var(--bg-paper);
+      color: var(--ink-secondary);
+      border: 1px solid var(--rule-hairline);
+      padding: 0.55rem 1.15rem;
+      border-radius: 6px;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .server-tab-btn:hover {
+      border-color: var(--ink-secondary);
+      color: var(--ink-primary);
+    }
+    .server-tab-btn[aria-selected="true"] {
+      background-color: #064E3B;
+      color: #ECFDF5;
+      border-color: #10B981;
+    }
+    .server-panel {
+      display: none;
+      background-color: var(--bg-paper);
+      border: 1px solid var(--rule-hairline);
+      border-radius: 8px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow-elevated);
+    }
+    .server-panel.active {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    .server-panel h3 {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      margin-bottom: 0.65rem;
+      color: var(--ink-primary);
+    }
+    .server-checklist {
+      list-style: none;
+    }
+    .server-checklist li {
+      position: relative;
+      padding-left: 1.65rem;
+      margin-bottom: 0.65rem;
+      color: var(--ink-secondary);
+    }
+    .server-checklist li svg {
+      position: absolute;
+      left: 0;
+      top: 0.28rem;
+      color: var(--seal-emerald);
+    }
+
+    /* Social Dissemination Section */
+    .share-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+    .share-box {
+      background-color: var(--bg-paper);
+      border: 1px solid var(--rule-hairline);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-elevated);
+    }
+    .share-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--rule-hairline);
+    }
+    .share-box-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+    .share-copy-btn {
+      background-color: #34D399;
+      color: #042F24;
+      border: none;
+      border-radius: 5px;
+      padding: 0.35rem 0.8rem;
+      font-family: var(--font-sans);
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 150ms ease;
+    }
+    .share-copy-btn:hover {
+      background-color: #6EE7B7;
+    }
+    .share-text {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      white-space: pre-wrap;
+      background-color: var(--bg-vellum);
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid var(--rule-hairline);
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 3rem 0;
+      background-color: #060A12;
+      color: var(--ink-secondary);
+      font-size: 0.92rem;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer-disclaimer {
+      max-width: 68ch;
+      color: var(--ink-muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid,
+      .forensic-layout,
+      .server-panel.active,
+      .share-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="brand-mark">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
+        <span>rxiv-gate</span>
+        <span class="brand-version">v1.1.0</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary Navigation">
+        <a href="#forensic-catch">Live Case Study</a>
+        <a href="#hard-gates">The 6 Hard Gates</a>
+        <a href="#server-profiles">Server Profiles</a>
+        <a href="#share-kit">Dissemination Kit</a>
+        <a href="https://github.com/deesatzed/rxiv-gate" class="btn-github" target="_blank" rel="noopener">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+            <path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
+          <span>GitHub Repository</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- First Viewport: Dossier Lead + Interactive SHA-256 Drift Simulator -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <h1 class="hero-title">Cryptographic Preprint Readiness &amp; Live Citation Verification for Google Antigravity</h1>
+            <p class="hero-lead">
+              Built for the 10,000 researchers in the <strong>Google Antigravity for Science</strong> cohort. <code>rxiv-gate</code> audits AI and database attributions, verifies every DOI/PMID/arXiv reference against live Crossref, DataCite, and PubMed titles and authors, and locks submission behind a two-pass Merkle SHA-256 seal.
+            </p>
+
+            <div class="install-box">
+              <div class="install-header">
+                <span>Install into Google Antigravity (Pure Python 3.10+ stdlib · Zero dependencies)</span>
+                <button type="button" class="copy-btn" data-copy-target="install-snippet">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                  </svg>
+                  <span>Copy Install</span>
+                </button>
+              </div>
+              <pre class="install-cmd" id="install-snippet">git clone https://github.com/deesatzed/rxiv-gate.git
+cd rxiv-gate &amp;&amp; ./install.sh</pre>
+            </div>
+
+            <div class="hero-actions">
+              <a href="https://github.com/deesatzed/rxiv-gate" class="btn-primary" target="_blank" rel="noopener">
+                <span>Explore Repository on GitHub</span>
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M5 12h14"/>
+                  <path d="m12 5 7 7-7 7"/>
+                </svg>
+              </a>
+              <a href="#share-kit" class="btn-secondary">
+                <span>Copy Cohort &amp; Social Posts</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Interactive 4-Stage Merkle SHA-256 Lock Simulator -->
+          <div class="simulator-card" aria-label="Interactive Two-Pass SHA-256 Seal Simulator">
+            <div class="simulator-topbar">
+              <span class="simulator-title">Merkle SHA-256 Release Seal Inspector</span>
+              <button type="button" class="drift-toggle-btn" id="drift-btn" aria-pressed="false">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 20h9"/>
+                  <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                </svg>
+                <span id="drift-btn-label">Simulate 1-Byte Post-Review Edit</span>
+              </button>
+            </div>
+            <div class="simulator-body">
+              <div class="chain-row">
+                <span class="chain-label">1. Pass-1 Audit (G1–G5)</span>
+                <span class="chain-hash">sha256:91b97310...592e4154</span>
+              </div>
+              <div class="chain-row">
+                <span class="chain-label">2. Blind Auditor Attestation</span>
+                <span class="chain-hash">sha256:91b97310...592e4154</span>
+              </div>
+              <div class="chain-row">
+                <span class="chain-label">3. Working Tree (paper1.tex + .bib)</span>
+                <span class="chain-hash" id="live-tree-hash">sha256:91b97310...592e4154</span>
+              </div>
+              <div class="chain-row">
+                <span class="chain-label">4. Gate G6 Release Seal</span>
+                <span class="chain-hash" id="seal-state-text">SEALED_FOR_SUBMISSION</span>
+              </div>
+
+              <div class="hook-verdict-banner" id="hook-banner" role="status" aria-live="polite">
+                <div class="hook-verdict-title" id="hook-title">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                  <span>PreToolUse Hook: ALLOW package_submission.py</span>
+                </div>
+                <p class="hook-verdict-detail" id="hook-detail">
+                  All 6 gates passed and working tree SHA-256 matches blind_review.json and release_seal.json (0-byte drift).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Forensic Case Study Section -->
+    <section id="forensic-catch">
+      <div class="container">
+        <h2 class="section-heading">Why HTTP-200 Link Checkers Fail on Scientific Manuscripts</h2>
+        <p class="section-intro">
+          A valid DOI that returns <code>HTTP 200 OK</code> can still point to the wrong paper. On its first live evaluation of a 55-reference arXiv manuscript, <code>rxiv-gate</code> caught a subtle Crossref DOI conflation that passed standard bibliography linters.
+        </p>
+
+        <div class="forensic-layout">
+          <div class="forensic-dossier">
+            <h3>Forensic Catch: Real Elsevier DOI, Wrong Paper</h3>
+            <p>
+              In <code>references.bib</code>, key <code>degrandi2015fungicides</code> cited DeGrandi-Hoffman et al. (2015) on honey bee hemolymph ATP depletion, but carried DOI <code>10.1016/j.jinsphys.2015.06.004</code>. Because that DOI exists in Crossref, simple link checkers reported green.
+            </p>
+            <p>
+              Gate <code>G3_CITATIONS</code> queried the Crossref REST API, computed token similarity between the manuscript’s title and the registered metadata, and halted with <code>CITATION_TITLE_MISMATCH (similarity = 0.00)</code>:
+            </p>
+
+            <table class="diff-table" aria-label="Crossref Citation Mismatch Comparison">
+              <tbody>
+                <tr>
+                  <th>BibTeX Entry Title</th>
+                  <td>“Fungicides Reduce Hemolymph Protein and ATP Levels in Honey Bees (<em>Apis mellifera</em>)”</td>
+                </tr>
+                <tr>
+                  <th>Disputed DOI in .bib</th>
+                  <td class="diff-bad">10.1016/j.jinsphys.2015.06.004 (HTTP 200 OK)</td>
+                </tr>
+                <tr>
+                  <th>Actual Crossref Record</th>
+                  <td class="diff-bad">“Functional analysis of Bombyx Wnt1 during embryogenesis using the CRISPR/Cas9 system” (Zhang et al., 2015)</td>
+                </tr>
+                <tr>
+                  <th>Verified Replacement</th>
+                  <td class="diff-good">10.1093/jee/tov251 (J. Econ. Entomol., similarity = 1.00)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="screenshot-frame">
+            <img src="https://raw.githubusercontent.com/deesatzed/rxiv-gate/main/assets/screenshot-pass1-catch.svg" alt="Terminal output showing Gate G3 catching the degrandi2015fungicides Crossref title mismatch and blocking tar packaging" width="960" height="460" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The 6 Deterministic Hard Gates -->
+    <section id="hard-gates">
+      <div class="container">
+        <h2 class="section-heading">The Six Deterministic Preprint Hard Gates</h2>
+        <p class="section-intro">
+          Every gate returns machine-readable failure codes and exits with code <code>2</code> on any violation. In <code>--mode reverify</code>, offline <code>syntax-only</code> citation checks are strictly forbidden.
+        </p>
+
+        <div class="ledger-table-wrap">
+          <table class="gates-table">
+            <thead>
+              <tr>
+                <th>Gate Identifier</th>
+                <th>Verification Scope &amp; Method</th>
+                <th>Failure Diagnostic Codes</th>
+                <th>Runtime Enforcement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="gate-id-pill">G1_AI_ATTRIBUTION</span></td>
+                <td>
+                  Scans author blocks to forbid AI co-authorship (ICMJE/COPE); verifies <em>Methods</em> disclosure naming <strong>Google Antigravity</strong>, the underlying <strong>Gemini</strong> model, and explicit human author verification; checks <strong>Google Antigravity for Science</strong> acknowledgment; blocks unapproved Google/DeepMind logos.
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">AI_LISTED_AS_AUTHOR</span>
+                    <span class="error-code">INCOMPLETE_AI_WORKFLOW_DISCLOSURE</span>
+                    <span class="error-code">MISSING_SCIENCE_PROGRAM_ACKNOWLEDGMENT</span>
+                    <span class="error-code">UNAPPROVED_BRAND_LOGO</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">HARD BLOCK (exit 2)</span></td>
+              </tr>
+              <tr>
+                <td><span class="gate-id-pill">G2_SKILL_LICENSES</span></td>
+                <td>
+                  Matches manuscript prose, analysis code, and <code>.licenses/</code> against <strong>34 scientific databases and tools</strong> across all 41 Google DeepMind Science Plugin skills (AlphaFold DB, AlphaGenome, Boltz, ChEMBL, PubChem, gnomAD, GTEx, UniProt, Reactome, RCSB PDB, RDKit, OpenMM, AutoDock Vina) and verifies each is cited in <code>.bib</code>.
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">MISSING_SKILL_DATABASE_CITATION</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">HARD BLOCK (exit 2)</span></td>
+              </tr>
+              <tr>
+                <td><span class="gate-id-pill">G3_CITATIONS</span></td>
+                <td>
+                  Parses arbitrary-depth BibTeX entries, <code>\cite{}</code>, and Markdown <code>[@key]</code> citations; queries <strong>Crossref</strong>, <strong>DataCite</strong>, <strong>PubMed E-utilities</strong>, and <strong>arXiv</strong> APIs with exponential backoff; enforces <strong>Title Similarity (&ge; 0.45)</strong> and <strong>Author Surname Overlap</strong>; detects duplicate keys and <code>TODO</code>/<code>[?]</code> placeholders.
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">UNRESOLVED_CITATION_IDENTIFIER</span>
+                    <span class="error-code">CITATION_TITLE_MISMATCH</span>
+                    <span class="error-code">CITATION_AUTHOR_MISMATCH</span>
+                    <span class="error-code">DUPLICATE_BIB_KEY</span>
+                    <span class="error-code">MISSING_BIB_ENTRY</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">HARD BLOCK (exit 2)</span></td>
+              </tr>
+              <tr>
+                <td><span class="gate-id-pill">G4_SERVER_SCREENING</span></td>
+                <td>
+                  Enforces server-specific screening rules: abstract word/character bounds (including arXiv’s 1,920-character limit), institutional affiliations, concrete Code/Data Availability URLs or DOIs, Competing Interests, local figure file existence, <code>\write18</code> shell-escape bans, IRB/ethics declarations, and <code>medRxiv</code> clinical trial IDs (<code>NCT...</code>).
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">ARXIV_ABSTRACT_CHAR_LIMIT_EXCEEDED</span>
+                    <span class="error-code">MISSING_REFERENCED_FIGURE</span>
+                    <span class="error-code">FORBIDDEN_TEX_WRITE18</span>
+                    <span class="error-code">MEDRXIV_MISSING_TRIAL_REGISTRATION</span>
+                    <span class="error-code">MEDRXIV_CLINICAL_TREATMENT_DIRECTIVE</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">HARD BLOCK (exit 2)</span></td>
+              </tr>
+              <tr>
+                <td><span class="gate-id-pill">G5_CLAIM_GROUNDING</span></td>
+                <td>
+                  Detects purely computational / <em>in silico</em> studies (docking, co-folding, ODE simulation, variant scoring without wet-lab assays) and blocks unhedged experimental or clinical efficacy claims in the Title, Abstract, and Conclusions.
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">UNHEDGED_COMPUTATIONAL_CLAIM</span>
+                    <span class="error-code">ABSTRACT_MISSING_IN_SILICO_SCOPE</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">HARD BLOCK (exit 2)</span></td>
+              </tr>
+              <tr>
+                <td><span class="gate-id-pill">G6_REVERIFICATION_SEAL</span></td>
+                <td>
+                  Requires Pass-1 Audit &rarr; Isolated <code>preprint-blind-auditor</code> PASS &rarr; Pass-2 Re-Verification bound to the exact composite Merkle <code>manuscript_sha256</code> digest before issuing <code>release_seal.json</code> and unlocking the <code>PreToolUse</code> packaging hook.
+                </td>
+                <td>
+                  <div class="error-code-list">
+                    <span class="error-code">MISSING_BLIND_REVIEW_ATTESTATION</span>
+                    <span class="error-code">STALE_BLIND_REVIEW_HASH_MISMATCH</span>
+                    <span class="error-code">BLIND_REVIEW_REJECTED</span>
+                  </div>
+                </td>
+                <td><span class="enforcement-badge">PreToolUse Hook DENY</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Server Screening Profiles -->
+    <section id="server-profiles">
+      <div class="container">
+        <h2 class="section-heading">Server-Specific Screening Matrices</h2>
+        <p class="section-intro">
+          Select your target preprint repository to inspect the exact moderator and automated compiler rules enforced by <code>--server</code>.
+        </p>
+
+        <div class="server-tabs" role="tablist" aria-label="Preprint Server Profiles">
+          <button type="button" class="server-tab-btn" role="tab" aria-selected="true" aria-controls="panel-arxiv" id="tab-arxiv" data-server="arxiv">arXiv (TeX / AutoTeX)</button>
+          <button type="button" class="server-tab-btn" role="tab" aria-selected="false" aria-controls="panel-biorxiv" id="tab-biorxiv" data-server="biorxiv">bioRxiv (Life Sciences)</button>
+          <button type="button" class="server-tab-btn" role="tab" aria-selected="false" aria-controls="panel-medrxiv" id="tab-medrxiv" data-server="medrxiv">medRxiv (Clinical &amp; Health)</button>
+          <button type="button" class="server-tab-btn" role="tab" aria-selected="false" aria-controls="panel-chemrxiv" id="tab-chemrxiv" data-server="chemrxiv">ChemRxiv (Chemical Sciences)</button>
+        </div>
+
+        <div class="server-panel active" id="panel-arxiv" role="tabpanel" aria-labelledby="tab-arxiv">
+          <div>
+            <h3>arXiv AutoTeX &amp; Metadata Screening</h3>
+            <ul class="server-checklist">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Enforces arXiv’s strict <strong>1,920-character Step-3 web abstract limit</strong> and flags raw <code>\cite{}</code> or <code>\ref{}</code> macros inside <code>\begin{abstract}</code>.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Detects parent-directory figure paths (<code>../figures/</code>), missing local figure files, machine-local paths (<code>/Users/...</code>), and forbidden <code>\write18</code> shell-escape macros.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Verifies human-only authorship and transparent AI workflow disclosure in <em>Methods</em> or <em>Acknowledgments</em> per arXiv policy.
+              </li>
+            </ul>
+          </div>
+          <div class="screenshot-frame">
+            <img src="https://raw.githubusercontent.com/deesatzed/rxiv-gate/main/assets/screenshot-pass2-sealed.svg" alt="Pass 2 Re-verification terminal output sealing an arXiv submission" width="960" height="440" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="server-panel" id="panel-biorxiv" role="tabpanel" aria-labelledby="tab-biorxiv">
+          <div>
+            <h3>bioRxiv CSHL Life Sciences Screening</h3>
+            <ul class="server-checklist">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Requires original primary research data/simulations (rejects uninvited narrative reviews and purely speculative hypotheses).
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Enforces mandatory <strong>Competing Interests</strong>, <strong>Data &amp; Code Availability</strong>, and <strong>IRB / IACUC Ethics</strong> statements whenever human or animal samples are referenced.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Verifies that AlphaFold, AlphaGenome, gnomAD, GTEx, ChEMBL, and UniProt predictions are framed as computational candidates rather than wet-lab confirmed findings.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>CLI Command for bioRxiv</h3>
+            <div class="install-box">
+              <pre class="install-cmd">python3 skills/preprint-readiness-gate/scripts/gate_runner.py \
+  --manuscript-file paper.tex \
+  --server biorxiv \
+  --mode audit \
+  --citation-mode online</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="server-panel" id="panel-medrxiv" role="tabpanel" aria-labelledby="tab-medrxiv">
+          <div>
+            <h3>medRxiv Enhanced Clinical &amp; Patient Safety Gates</h3>
+            <ul class="server-checklist">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <strong>Prospective Clinical Trial ID Gate:</strong> Any interventional or randomized trial manuscript must include a valid <code>NCTxxxxxxxx</code>, <code>ISRCTN</code>, <code>EudraCT</code>, or WHO ICTRP registration identifier.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <strong>Ethics, Informed Consent &amp; De-Identification:</strong> Enforces explicit IRB approval/exemption and patient de-identification declarations.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <strong>Clinical Directive Blocker:</strong> Blocks prescriptive clinical dosing or treatment directives aimed at patients in unpeer-reviewed preprints.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>CLI Command for medRxiv</h3>
+            <div class="install-box">
+              <pre class="install-cmd">python3 skills/preprint-readiness-gate/scripts/gate_runner.py \
+  --manuscript-file clinical_study.tex \
+  --server medrxiv \
+  --mode audit \
+  --citation-mode online</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="server-panel" id="panel-chemrxiv" role="tabpanel" aria-labelledby="tab-chemrxiv">
+          <div>
+            <h3>ChemRxiv Chemical Structure &amp; CADD Screening</h3>
+            <ul class="server-checklist">
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Verifies citations for RDKit, AutoDock Vina / smina, OpenMM, PubChem, ChEMBL, and Boltz / AlphaFold 3 co-folding pipelines.
+              </li>
+              <li>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Enforces Competing Interests and machine-readable Data/Code Availability (SMILES/SDF/CIF repositories or Zenodo DOIs).
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3>CLI Command for ChemRxiv</h3>
+            <div class="install-box">
+              <pre class="install-cmd">python3 skills/preprint-readiness-gate/scripts/gate_runner.py \
+  --manuscript-file cadd_study.tex \
+  --server chemrxiv \
+  --mode audit \
+  --citation-mode online</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ready-to-Share Social Media & Cohort Dissemination Kit -->
+    <section id="share-kit">
+      <div class="container">
+        <h2 class="section-heading">Share with the 10,000-Researcher Cohort &amp; Social Media</h2>
+        <p class="section-intro">
+          Copy ready-to-post announcements for X/Twitter, LinkedIn, or the Google Antigravity for Science cohort channels. Sharing <code>https://deesatzed.github.io/rxiv-gate/</code> or <code>https://github.com/deesatzed/rxiv-gate</code> automatically unfurls the 1280&times;640 OpenGraph card.
+        </p>
+
+        <div class="share-layout">
+          <div class="share-box">
+            <div class="share-box-header">
+              <span class="share-box-title">X / Twitter &amp; Bluesky Launch Post</span>
+              <button type="button" class="share-copy-btn" data-copy-target="share-x">Copy Post</button>
+            </div>
+            <pre class="share-text" id="share-x">Built an open-source compliance &amp; cryptographic verification plugin for the 10,000 researchers in the Google Antigravity for Science cohort: rxiv-gate
+
+Before submitting to arXiv, bioRxiv, medRxiv, or ChemRxiv, it enforces 6 deterministic Hard Gates, live Crossref/DataCite/PubMed title+author matching, 34 Science DB license checks, and a 2-pass SHA-256 release seal.
+
+On our first live test of a 55-ref arXiv manuscript, Gate G3 caught a valid Elsevier DOI (HTTP 200) that resolved on Crossref to an unrelated silkworm CRISPR paper (similarity = 0.00).
+
+https://github.com/deesatzed/rxiv-gate</pre>
+          </div>
+
+          <div class="share-box">
+            <div class="share-box-header">
+              <span class="share-box-title">LinkedIn &amp; Cohort Announcement</span>
+              <button type="button" class="share-copy-btn" data-copy-target="share-linkedin">Copy Post</button>
+            </div>
+            <pre class="share-text" id="share-linkedin">Excited to open-source rxiv-gate (v1.1.0) — a two-pass scientific preprint compliance, live citation verification, and SHA-256 cryptographic hard-gate plugin built for researchers in the Google Antigravity for Science program submitting to arXiv, bioRxiv, medRxiv, and ChemRxiv.
+
+• Catches real-DOI / wrong-paper conflations via live Crossref, DataCite, PubMed &amp; arXiv title + author surname verification
+• Audits 34 third-party scientific databases in the Google DeepMind Science Plugin (SKILL_LICENSES.md)
+• Enforces ICMJE/COPE AI workflow disclosures &amp; program acknowledgments
+• Locks submission behind an isolated blind-auditor subagent + Merkle SHA-256 release seal (blocks packaging on 1-byte post-review drift)
+
+Pure Python 3.10+ stdlib (zero dependencies), Apache-2.0:
+https://github.com/deesatzed/rxiv-gate</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>rxiv-gate (v1.1.0)</strong> · Licensed under the Apache License, Version 2.0.<br />
+        <a href="https://github.com/deesatzed/rxiv-gate">GitHub Repository</a> ·
+        <a href="https://github.com/deesatzed/rxiv-gate/blob/main/docs/SOCIAL_MEDIA_KIT.md">Social Media Kit</a> ·
+        <a href="https://github.com/deesatzed/rxiv-gate/blob/main/skills/preprint-readiness-gate/SKILL.md">Skill Documentation</a>
+      </div>
+      <p class="footer-disclaimer">
+        <code>rxiv-gate</code> is an independent open-source community plugin built for Google Antigravity users and is not affiliated with or endorsed by Google LLC, Cornell University (arXiv), or Cold Spring Harbor Laboratory (bioRxiv/medRxiv). Authors remain solely responsible for the accuracy, ethical compliance, and data licensing of their manuscripts.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Copy-to-Clipboard Controls
+    document.querySelectorAll('[data-copy-target]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const targetId = btn.getAttribute('data-copy-target');
+        const targetEl = document.getElementById(targetId);
+        if (!targetEl) return;
+        try {
+          await navigator.clipboard.writeText(targetEl.textContent.trim());
+          const origText = btn.textContent;
+          btn.setAttribute('data-copied', 'true');
+          const span = btn.querySelector('span');
+          if (span) {
+            const prev = span.textContent;
+            span.textContent = 'Copied to Clipboard';
+            setTimeout(() => {
+              span.textContent = prev;
+              btn.removeAttribute('data-copied');
+            }, 1800);
+          } else {
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.textContent = origText;
+              btn.removeAttribute('data-copied');
+            }, 1800);
+          }
+        } catch (err) {
+          console.error('Copy failed:', err);
+        }
+      });
+    });
+
+    // 2. Interactive 1-Byte Post-Review Drift Simulator
+    const driftBtn = document.getElementById('drift-btn');
+    const driftBtnLabel = document.getElementById('drift-btn-label');
+    const liveTreeHash = document.getElementById('live-tree-hash');
+    const sealStateText = document.getElementById('seal-state-text');
+    const hookBanner = document.getElementById('hook-banner');
+    const hookTitle = document.getElementById('hook-title');
+    const hookDetail = document.getElementById('hook-detail');
+
+    if (driftBtn) {
+      driftBtn.addEventListener('click', () => {
+        const isDrifted = driftBtn.getAttribute('aria-pressed') === 'true';
+        const nextDrifted = !isDrifted;
+        driftBtn.setAttribute('aria-pressed', String(nextDrifted));
+
+        if (nextDrifted) {
+          driftBtnLabel.textContent = 'Restore Clean SHA-256 Seal';
+          liveTreeHash.textContent = 'sha256:e4c0198a...83f102b9 (1-byte edit)';
+          liveTreeHash.classList.add('drifted');
+          sealStateText.textContent = 'STALE_BLIND_REVIEW_HASH_MISMATCH';
+          sealStateText.classList.add('drifted');
+          hookBanner.classList.add('blocked');
+          hookTitle.innerHTML = '<span>PreToolUse Hook: DENY (Post-Seal Drift Detected)</span>';
+          hookDetail.textContent = 'Blocked tar/package_submission.py: working tree SHA-256 (e4c0198a...) does not match blind_review.json (91b97310...). Re-run blind review and Pass-2 reverify.';
+        } else {
+          driftBtnLabel.textContent = 'Simulate 1-Byte Post-Review Edit';
+          liveTreeHash.textContent = 'sha256:91b97310...592e4154';
+          liveTreeHash.classList.remove('drifted');
+          sealStateText.textContent = 'SEALED_FOR_SUBMISSION';
+          sealStateText.classList.remove('drifted');
+          hookBanner.classList.remove('blocked');
+          hookTitle.innerHTML = '<span>PreToolUse Hook: ALLOW package_submission.py</span>';
+          hookDetail.textContent = 'All 6 gates passed and working tree SHA-256 matches blind_review.json and release_seal.json (0-byte drift).';
+        }
+      });
+    }
+
+    // 3. Server Screening Profile Tabs
+    const tabBtns = document.querySelectorAll('.server-tab-btn');
+    const panels = document.querySelectorAll('.server-panel');
+    tabBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const server = btn.getAttribute('data-server');
+        tabBtns.forEach((b) => b.setAttribute('aria-selected', String(b === btn)));
+        panels.forEach((p) => {
+          p.classList.toggle('active', p.id === `panel-${server}`);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
