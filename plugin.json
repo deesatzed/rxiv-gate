@@ -1,0 +1,18 @@
+{
+  "name": "rxiv-gate",
+  "displayName": "RxivGate — Preprint Readiness & Hard Gate",
+  "version": "1.1.0",
+  "description": "Two-pass arXiv/bioRxiv/medRxiv/ChemRxiv preprint compliance, live citation title verification, Science skill license auditing, and SHA-256 cryptographic hard gates for Google Antigravity.",
+  "author": {
+    "name": "Wayne A. Satz, MD",
+    "url": "https://github.com/deesatzed"
+  },
+  "homepage": "https://github.com/deesatzed/rxiv-gate",
+  "repository": "https://github.com/deesatzed/rxiv-gate",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Audit my arXiv manuscript for live citation accuracy, claim grounding, and Antigravity disclosures",
+    "Verify every DOI and Science database license in my LaTeX paper and remediate failures",
+    "Run blind review and Pass-2 re-verification to cryptographically seal my preprint for upload"
+  ]
+}

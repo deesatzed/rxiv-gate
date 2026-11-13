@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none">
+  <!-- 10% safe margin baked in (content within 26..230) -->
+  <rect x="28" y="28" width="200" height="200" rx="40" fill="#0F172A" stroke="#38BDF8" stroke-width="8"/>
+  <!-- Shield / Document Frame -->
+  <path d="M128 54L186 76V128C186 167 160 196 128 208C96 196 70 167 70 128V76L128 54Z" fill="#1E293B" stroke="#60A5FA" stroke-width="6" stroke-linejoin="round"/>
+  <!-- Double Check / Two-Pass Hard Gate -->
+  <path d="M96 130L115 149L156 104" stroke="#34D399" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M112 158L125 170L168 122" stroke="#38BDF8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Top Star / Science Node -->
+  <circle cx="128" cy="82" r="7" fill="#FBBF24"/>
+</svg>

@@ -1,0 +1,312 @@
+{
+  "version": "1.4.0",
+  "source": "Google DeepMind Science Plugin SKILL_LICENSES.md",
+  "resources": [
+    {
+      "id": "alphafold-db",
+      "skills": ["alphafold-database-fetch-and-analyze"],
+      "name": "AlphaFold Protein Structure Database",
+      "detect_patterns": ["alphafold\\s+database", "alphafold\\.ebi\\.ac\\.uk", "AF-[A-Z0-9]+-F1"],
+      "cite_tokens": ["jumper", "varadi", "alphafold"],
+      "terms_url": "https://alphafold.ebi.ac.uk/",
+      "recommended_citation": "Varadi et al. (2024) AlphaFold Protein Structure Database in 2024, Nucleic Acids Research; Jumper et al. (2021) Nature."
+    },
+    {
+      "id": "alphafold3",
+      "skills": ["cheminformatics-cofolding"],
+      "name": "AlphaFold 3",
+      "detect_patterns": ["alphafold\\s*3", "af3"],
+      "cite_tokens": ["abramson", "alphafold 3", "alphafold3"],
+      "terms_url": "https://github.com/google-deepmind/alphafold3",
+      "recommended_citation": "Abramson et al. (2024) Accurate structure prediction of biomolecular interactions with AlphaFold 3, Nature."
+    },
+    {
+      "id": "alphagenome",
+      "skills": ["alphagenome-single-variant-analysis", "alphagenome-variant-impact-score", "alphagenome-atlas-website-links"],
+      "name": "AlphaGenome / AlphaGenome Atlas",
+      "detect_patterns": ["alphagenome", "avi\\s+score", "alphagenome\\s+atlas"],
+      "cite_tokens": ["alphagenome", "avsec"],
+      "terms_url": "https://deepmind.google.com/science/alphagenome/",
+      "recommended_citation": "Google DeepMind AlphaGenome & AlphaGenome Atlas (cite official AlphaGenome publication and https://deepmind.google.com/science/alphagenome/)."
+    },
+    {
+      "id": "boltz",
+      "skills": ["cheminformatics-cofolding"],
+      "name": "Boltz Biomolecular Interaction Model",
+      "detect_patterns": ["\\bboltz(?:-1|-2|\\.yaml)?\\b"],
+      "cite_tokens": ["wohlwend", "boltz"],
+      "terms_url": "https://github.com/jwohlwend/boltz",
+      "recommended_citation": "Wohlwend et al., Boltz biomolecular interaction prediction (https://github.com/jwohlwend/boltz)."
+    },
+    {
+      "id": "chembl",
+      "skills": ["chembl-database", "cheminformatics-core"],
+      "name": "ChEMBL Database",
+      "detect_patterns": ["\\bchembl\\b", "CHEMBL\\d{3,}"],
+      "cite_tokens": ["zdrazil", "mendez", "gaulton", "chembl"],
+      "terms_url": "https://chembl.gitbook.io/chembl-interface-documentation/about",
+      "recommended_citation": "Zdrazil et al. (2024) The ChEMBL Database in 2023: a drug discovery platform spanning multiple bioactivity data types and time periods, Nucleic Acids Research."
+    },
+    {
+      "id": "pubchem",
+      "skills": ["pubchem-database", "cheminformatics-core", "cheminformatics-doc2mol", "rdkit-general"],
+      "name": "NCBI PubChem",
+      "detect_patterns": ["\\bpubchem\\b", "pug-rest", "\\bCID\\s*[:#]?\\s*\\d{3,}"],
+      "cite_tokens": ["kim", "pubchem"],
+      "terms_url": "https://pubchem.ncbi.nlm.nih.gov/docs/citation-guidelines",
+      "recommended_citation": "Kim et al. (2023) PubChem 2023 update, Nucleic Acids Research."
+    },
+    {
+      "id": "rdkit",
+      "skills": ["rdkit-general", "cheminformatics-core", "cheminformatics-ml", "cheminformatics-physics", "cheminformatics-reactions", "cheminformatics-cofolding", "cheminformatics-doc2mol"],
+      "name": "RDKit Cheminformatics",
+      "detect_patterns": ["\\brdkit\\b"],
+      "cite_tokens": ["rdkit", "landrum"],
+      "terms_url": "https://www.rdkit.org/",
+      "recommended_citation": "RDKit: Open-source cheminformatics (https://www.rdkit.org, Zenodo DOI: 10.5281/zenodo.591637)."
+    },
+    {
+      "id": "autodock-vina",
+      "skills": ["cheminformatics-physics"],
+      "name": "AutoDock Vina / smina",
+      "detect_patterns": ["autodock\\s+vina", "\\bsmina\\b"],
+      "cite_tokens": ["trott", "eberhardt", "koes", "vina", "smina"],
+      "terms_url": "https://github.com/ccsb-scripps/AutoDock-Vina",
+      "recommended_citation": "Eberhardt et al. (2021) AutoDock Vina 1.2.0, J. Chem. Inf. Model.; Trott & Olson (2010) J. Comput. Chem."
+    },
+    {
+      "id": "openmm",
+      "skills": ["cheminformatics-physics"],
+      "name": "OpenMM Molecular Dynamics",
+      "detect_patterns": ["\\bopenmm\\b"],
+      "cite_tokens": ["eastman", "openmm"],
+      "terms_url": "https://openmm.org/",
+      "recommended_citation": "Eastman et al. (2024) OpenMM 8: Molecular Dynamics Simulation with Machine Learning Potentials, J. Phys. Chem. B."
+    },
+    {
+      "id": "clinicaltrials",
+      "skills": ["clinical-trials-database"],
+      "name": "ClinicalTrials.gov",
+      "detect_patterns": ["clinicaltrials\\.gov"],
+      "cite_tokens": ["clinicaltrials", "zarin"],
+      "terms_url": "https://clinicaltrials.gov/",
+      "recommended_citation": "ClinicalTrials.gov, U.S. National Library of Medicine (https://clinicaltrials.gov/)."
+    },
+    {
+      "id": "clinvar",
+      "skills": ["clinvar-database"],
+      "name": "NCBI ClinVar",
+      "detect_patterns": ["\\bclinvar\\b", "VCV\\d{6,}"],
+      "cite_tokens": ["landrum", "clinvar"],
+      "terms_url": "https://www.ncbi.nlm.nih.gov/clinvar/",
+      "recommended_citation": "Landrum et al. (2020) ClinVar: improvements to accessing data, Nucleic Acids Research."
+    },
+    {
+      "id": "dbsnp",
+      "skills": ["dbsnp-database"],
+      "name": "NCBI dbSNP",
+      "detect_patterns": ["\\bdbsnp\\b"],
+      "cite_tokens": ["sherry", "dbsnp", "phan"],
+      "terms_url": "https://www.ncbi.nlm.nih.gov/snp/",
+      "recommended_citation": "Sherry et al. (2001) dbSNP: the NCBI database of genetic variation, Nucleic Acids Research."
+    },
+    {
+      "id": "ols",
+      "skills": ["embl-ebi-ols"],
+      "name": "EMBL-EBI Ontology Lookup Service (OLS)",
+      "detect_patterns": ["ontology\\s+lookup\\s+service", "ebi\\.ac\\.uk/ols4"],
+      "cite_tokens": ["jupp", "mcgreig", "ontology lookup service", "ols"],
+      "terms_url": "https://www.ebi.ac.uk/ols4/api-docs",
+      "recommended_citation": "EMBL-EBI Ontology Lookup Service (OLS4), https://www.ebi.ac.uk/ols4."
+    },
+    {
+      "id": "encode",
+      "skills": ["encode-ccres-database"],
+      "name": "ENCODE Project / SCREEN cCREs",
+      "detect_patterns": ["encode\\s+project", "encode\\s+ccre", "encodeproject\\.org"],
+      "cite_tokens": ["encode", "moore", "ccre"],
+      "terms_url": "https://www.encodeproject.org/help/rest-api/",
+      "recommended_citation": "ENCODE Project Consortium; Moore et al. (2020) Expanded encyclopaedias of DNA elements in the human and mouse genomes, Nature."
+    },
+    {
+      "id": "ensembl",
+      "skills": ["ensembl-database"],
+      "name": "Ensembl & Ensembl VEP",
+      "detect_patterns": ["\\bensembl\\b", "ensembl\\s+vep"],
+      "cite_tokens": ["martin", "mclaren", "cunningham", "ensembl"],
+      "terms_url": "https://useast.ensembl.org/index.html",
+      "recommended_citation": "Martin et al. (2023) Ensembl 2023, Nucleic Acids Research; McLaren et al. (2016) The Ensembl Variant Effect Predictor, Genome Biology."
+    },
+    {
+      "id": "foldseek",
+      "skills": ["foldseek-structural-search"],
+      "name": "Foldseek",
+      "detect_patterns": ["\\bfoldseek\\b"],
+      "cite_tokens": ["van kempen", "kempen", "foldseek"],
+      "terms_url": "https://github.com/steineggerlab/foldseek",
+      "recommended_citation": "van Kempen et al. (2024) Fast and accurate protein structure search with Foldseek, Nature Biotechnology."
+    },
+    {
+      "id": "gnomad",
+      "skills": ["gnomad-database"],
+      "name": "gnomAD (Genome Aggregation Database)",
+      "detect_patterns": ["\\bgnomad\\b"],
+      "cite_tokens": ["karczewski", "chen", "gnomad"],
+      "terms_url": "https://gnomad.broadinstitute.org/policies",
+      "recommended_citation": "Chen et al. (2024) A genomic mutational constraint map using variation in 76,156 human genomes, Nature; Karczewski et al. (2020) Nature."
+    },
+    {
+      "id": "gtex",
+      "skills": ["gtex-database"],
+      "name": "GTEx (Genotype-Tissue Expression) Portal",
+      "detect_patterns": ["\\bgtex\\b", "gtexportal\\.org"],
+      "cite_tokens": ["gtex", "genotype-tissue expression"],
+      "terms_url": "https://gtexportal.org/home/license",
+      "recommended_citation": "The GTEx Consortium (2020) The GTEx Consortium atlas of genetic regulatory effects across human tissues, Science."
+    },
+    {
+      "id": "hpa",
+      "skills": ["human-protein-atlas-database"],
+      "name": "Human Protein Atlas",
+      "detect_patterns": ["human\\s+protein\\s+atlas", "proteinatlas\\.org"],
+      "cite_tokens": ["uhlen", "protein atlas", "proteinatlas"],
+      "terms_url": "https://www.proteinatlas.org/about/licence",
+      "recommended_citation": "Uhlén et al. (2015) Tissue-based map of the human proteome, Science (https://www.proteinatlas.org)."
+    },
+    {
+      "id": "interpro",
+      "skills": ["interpro-database"],
+      "name": "InterPro",
+      "detect_patterns": ["\\binterpro\\b", "IPR\\d{6}"],
+      "cite_tokens": ["paysan-lafosse", "blum", "interpro"],
+      "terms_url": "https://www.ebi.ac.uk/interpro/",
+      "recommended_citation": "Paysan-Lafosse et al. (2023) InterPro in 2022, Nucleic Acids Research."
+    },
+    {
+      "id": "jaspar",
+      "skills": ["jaspar-database"],
+      "name": "JASPAR Database",
+      "detect_patterns": ["\\bjaspar\\b"],
+      "cite_tokens": ["rauluseviciute", "castro-mondragon", "jaspar"],
+      "terms_url": "https://jaspar.elixir.no/",
+      "recommended_citation": "Rauluseviciute et al. (2024) JASPAR 2024, Nucleic Acids Research."
+    },
+    {
+      "id": "openalex",
+      "skills": ["literature-search-openalex"],
+      "name": "OpenAlex",
+      "detect_patterns": ["\\bopenalex\\b"],
+      "cite_tokens": ["priem", "openalex"],
+      "terms_url": "https://help.openalex.org/",
+      "recommended_citation": "Priem, Piwowar, & Orr (2022) OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts."
+    },
+    {
+      "id": "openfda",
+      "skills": ["openfda-database"],
+      "name": "openFDA",
+      "detect_patterns": ["\\bopenfda\\b", "api\\.fda\\.gov"],
+      "cite_tokens": ["openfda", "kass-hout"],
+      "terms_url": "https://open.fda.gov/license",
+      "recommended_citation": "Kass-Hout et al. (2016) OpenFDA: an innovative platform providing access to a wealth of FDA's publicly available data, JAMIA."
+    },
+    {
+      "id": "opentargets",
+      "skills": ["opentargets-database"],
+      "name": "Open Targets Platform",
+      "detect_patterns": ["open\\s*targets"],
+      "cite_tokens": ["ochoa", "open targets", "opentargets"],
+      "terms_url": "https://platform-docs.opentargets.org/licence",
+      "recommended_citation": "Ochoa et al. (2023) The next-generation Open Targets Platform: reimagined, redesigned, rebuilt, Nucleic Acids Research."
+    },
+    {
+      "id": "rcsb-pdb",
+      "skills": ["pdb-database"],
+      "name": "RCSB Protein Data Bank (PDB)",
+      "detect_patterns": ["rcsb\\s+pdb", "protein\\s+data\\s+bank", "rcsb\\.org"],
+      "cite_tokens": ["berman", "burley", "protein data bank", "rcsb"],
+      "terms_url": "https://www.rcsb.org/pages/usage-policy",
+      "recommended_citation": "Berman et al. (2000) The Protein Data Bank, Nucleic Acids Research; Burley et al. (2023) Nucleic Acids Research."
+    },
+    {
+      "id": "clustalo",
+      "skills": ["protein-sequence-msa"],
+      "name": "Clustal Omega (EMBL-EBI)",
+      "detect_patterns": ["clustal\\s*omega", "\\bclustalo\\b"],
+      "cite_tokens": ["sievers", "clustal omega", "madeira"],
+      "terms_url": "https://www.ebi.ac.uk/jdispatcher/msa/clustalo",
+      "recommended_citation": "Sievers et al. (2011) Fast, scalable generation of high-quality protein multiple sequence alignments using Clustal Omega, Mol. Syst. Biol."
+    },
+    {
+      "id": "mmseqs2",
+      "skills": ["protein-sequence-similarity-search"],
+      "name": "MMseqs2 / ColabFold Search",
+      "detect_patterns": ["\\bmmseqs2?\\b"],
+      "cite_tokens": ["steinegger", "mmseqs2", "mirdita"],
+      "terms_url": "https://colabfold.com",
+      "recommended_citation": "Steinegger & Söding (2017) MMseqs2 enables sensitive protein sequence searching for the analysis of massive data sets, Nature Biotechnology."
+    },
+    {
+      "id": "pymol",
+      "skills": ["pymol"],
+      "name": "PyMOL Molecular Graphics System",
+      "detect_patterns": ["\\bpymol\\b"],
+      "cite_tokens": ["pymol", "schrödinger", "schrodinger", "delano"],
+      "terms_url": "https://www.pymol.org/",
+      "recommended_citation": "The PyMOL Molecular Graphics System, Schrödinger, LLC."
+    },
+    {
+      "id": "quickgo",
+      "skills": ["quickgo-database"],
+      "name": "QuickGO / Gene Ontology",
+      "detect_patterns": ["\\bquickgo\\b"],
+      "cite_tokens": ["binns", "quickgo", "ashburner", "gene ontology"],
+      "terms_url": "https://www.ebi.ac.uk/QuickGO/",
+      "recommended_citation": "Binns et al. (2009) QuickGO: a web-based tool for Gene Ontology searching, Bioinformatics."
+    },
+    {
+      "id": "reactome",
+      "skills": ["reactome-database"],
+      "name": "Reactome Pathway Knowledgebase",
+      "detect_patterns": ["\\breactome\\b", "R-HSA-\\d+"],
+      "cite_tokens": ["milacic", "gillespie", "reactome"],
+      "terms_url": "https://reactome.org/cite",
+      "recommended_citation": "Milacic et al. (2024) The Reactome Pathway Knowledgebase 2024, Nucleic Acids Research."
+    },
+    {
+      "id": "string-db",
+      "skills": ["string-database"],
+      "name": "STRING Protein-Protein Interaction Database",
+      "detect_patterns": ["string\\s+database", "string-db\\.org"],
+      "cite_tokens": ["szklarczyk", "string"],
+      "terms_url": "https://string-db.org/cgi/access",
+      "recommended_citation": "Szklarczyk et al. (2023) The STRING database in 2023, Nucleic Acids Research."
+    },
+    {
+      "id": "ucsc-genome",
+      "skills": ["ucsc-conservation-and-tfbs"],
+      "name": "UCSC Genome Browser (phyloP / phastCons)",
+      "detect_patterns": ["ucsc\\s+genome\\s+browser", "genome\\.ucsc\\.edu"],
+      "cite_tokens": ["kent", "raney", "nassar", "ucsc"],
+      "terms_url": "https://genome.ucsc.edu/conditions.html",
+      "recommended_citation": "Nassar et al. (2023) The UCSC Genome Browser database: 2023 update, Nucleic Acids Research."
+    },
+    {
+      "id": "unibind",
+      "skills": ["unibind-database"],
+      "name": "UniBind Database",
+      "detect_patterns": ["\\bunibind\\b"],
+      "cite_tokens": ["puig", "gheorghe", "unibind"],
+      "terms_url": "https://unibind.uio.no/",
+      "recommended_citation": "Puig et al. (2021) UniBind: maps of high-confidence direct TF-DNA interactions across nine species, BMC Genomics."
+    },
+    {
+      "id": "uniprot",
+      "skills": ["uniprot-database"],
+      "name": "UniProt Knowledgebase (UniProtKB)",
+      "detect_patterns": ["\\buniprot(?:kb)?\\b", "uniprot\\.org"],
+      "cite_tokens": ["uniprot", "bateman"],
+      "terms_url": "https://www.uniprot.org/help/license",
+      "recommended_citation": "The UniProt Consortium (2023) UniProt: the Universal Protein Knowledgebase in 2023, Nucleic Acids Research."
+    }
+  ]
+}
