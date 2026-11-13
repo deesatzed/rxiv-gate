@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090D16"/>
+      <stop offset="55%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#0B1F2A"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#34D399"/>
+      <stop offset="100%" stop-color="#A78BFA"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9" stop-opacity="0.25"/>
+      <stop offset="100%" stop-color="#10B981" stop-opacity="0.15"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1E293B" stroke-width="1" stroke-opacity="0.55"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bg)"/>
+  <rect width="1280" height="640" fill="url(#grid)"/>
+
+  <!-- Top Accent Bar -->
+  <rect x="0" y="0" width="1280" height="6" fill="url(#accent)"/>
+
+  <!-- Left Column: Identity & Value Prop -->
+  <g transform="translate(56, 78)">
+    <!-- Pill Badge -->
+    <rect x="0" y="0" width="468" height="36" rx="18" fill="#0F2942" stroke="#38BDF8" stroke-width="1.2"/>
+    <circle cx="20" cy="18" r="5" fill="#34D399"/>
+    <text x="36" y="23" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12.5" font-weight="600" fill="#E0F2FE" letter-spacing="0.4">
+      GOOGLE ANTIGRAVITY FOR SCIENCE · OPEN-SOURCE PLUGIN
+    </text>
+
+    <!-- Title -->
+    <text x="0" y="108" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="68" font-weight="800" fill="#F8FAFC" letter-spacing="-1.5">
+      rxiv-gate
+    </text>
+    <rect x="316" y="64" width="96" height="34" rx="8" fill="#064E3B" stroke="#10B981" stroke-width="1.2"/>
+    <text x="364" y="86" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700" fill="#6EE7B7">
+      v1.1.0
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="21" font-weight="600" fill="#CBD5E1">
+      Cryptographic Two-Pass Preprint Readiness &amp; Citation Gate
+    </text>
+    <text x="0" y="188" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif" font-size="18.5" font-weight="400" fill="#94A3B8">
+      for arXiv · bioRxiv · medRxiv · ChemRxiv
+    </text>
+
+    <!-- 6 Hard Gate Pills -->
+    <g transform="translate(0, 228)">
+      <rect x="0" y="0" width="265" height="44" rx="8" fill="#111C2D" stroke="#334155" stroke-width="1.2"/>
+      <text x="16" y="27" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#38BDF8">G1</text>
+      <text x="46" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#E2E8F0">AI &amp; Program Attribution</text>
+
+      <rect x="280" y="0" width="265" height="44" rx="8" fill="#111C2D" stroke="#334155" stroke-width="1.2"/>
+      <text x="296" y="27" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#38BDF8">G2</text>
+      <text x="326" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#E2E8F0">34 Science DB Licenses</text>
+
+      <rect x="0" y="56" width="265" height="44" rx="8" fill="#111C2D" stroke="#334155" stroke-width="1.2"/>
+      <text x="16" y="83" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#34D399">G3</text>
+      <text x="46" y="83" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#E2E8F0">Live DOI + Title/Author Match</text>
+
+      <rect x="280" y="56" width="265" height="44" rx="8" fill="#111C2D" stroke="#334155" stroke-width="1.2"/>
+      <text x="296" y="83" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#34D399">G4</text>
+      <text x="326" y="83" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#E2E8F0">Server &amp; Clinical IRB Gates</text>
+
+      <rect x="0" y="112" width="265" height="44" rx="8" fill="#111C2D" stroke="#334155" stroke-width="1.2"/>
+      <text x="16" y="139" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#A78BFA">G5</text>
+      <text x="46" y="139" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600" fill="#E2E8F0">In-Silico Claim Hedging</text>
+
+      <rect x="280" y="112" width="265" height="44" rx="8" fill="#111C2D" stroke="#10B981" stroke-width="1.4"/>
+      <text x="296" y="139" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" fill="#34D399">G6</text>
+      <text x="326" y="139" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="700" fill="#6EE7B7">SHA-256 Pass-2 Hard Seal</text>
+    </g>
+
+    <!-- Bottom URL Bar -->
+    <g transform="translate(0, 428)">
+      <text x="0" y="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="600" fill="#94A3B8">
+        github.com/deesatzed/rxiv-gate
+      </text>
+      <text x="275" y="24" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13.5" fill="#64748B">
+        · Zero deps · Python 3.10+ · Apache-2.0
+      </text>
+    </g>
+  </g>
+
+  <!-- Right Column: Live Terminal Card Preview -->
+  <g transform="translate(658, 74)">
+    <rect x="0" y="0" width="554" height="492" rx="14" fill="#0B111E" stroke="#334155" stroke-width="1.5"/>
+    <!-- Window Header -->
+    <rect x="0" y="0" width="554" height="38" rx="14" fill="#162032"/>
+    <rect x="0" y="24" width="554" height="14" fill="#162032"/>
+    <circle cx="20" cy="19" r="6" fill="#EF4444"/>
+    <circle cx="40" cy="19" r="6" fill="#F59E0B"/>
+    <circle cx="60" cy="19" r="6" fill="#10B981"/>
+    <text x="277" y="24" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" fill="#94A3B8">
+      rxiv-gate — Pass-1 Audit → Blind Auditor → Pass-2 Seal
+    </text>
+
+    <!-- Terminal Lines -->
+    <g transform="translate(22, 62)" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13">
+      <text x="0" y="0" fill="#38BDF8">$ python3 gate_runner.py --manuscript-file paper1.tex --mode audit</text>
+      <text x="0" y="26" fill="#F87171" font-weight="700">[BLOCKED] G3_CITATIONS · CITATION_TITLE_MISMATCH</text>
+      <text x="0" y="48" fill="#CBD5E1">  key:      degrandi2015fungicides (DOI: 10.1016/j.jinsphys.2015.06.004)</text>
+      <text x="0" y="68" fill="#94A3B8">  expected: "Fungicides Reduce Hemolymph Protein and ATP Levels..."</text>
+      <text x="0" y="88" fill="#FCA5A5">  actual:   "Functional analysis of Bombyx Wnt1 during embryogenesis..."</text>
+      <text x="0" y="108" fill="#FBBF24">  match:    similarity = 0.00 (threshold &gt;= 0.45) → Fix DOI: 10.1093/jee/tov251</text>
+
+      <line x1="0" y1="128" x2="510" y2="128" stroke="#1E293B" stroke-width="1.5"/>
+
+      <text x="0" y="154" fill="#38BDF8">$ python3 record_blind_review.py --manuscript-file paper1.tex</text>
+      <text x="0" y="176" fill="#A78BFA">✓ Bound isolated preprint-blind-auditor PASS to SHA-256:</text>
+      <text x="0" y="196" fill="#94A3B8">  91b97310722a1d17ab23873b05d5c627b9d63f71fd04cd6b532200ef592e4154</text>
+
+      <line x1="0" y1="216" x2="510" y2="216" stroke="#1E293B" stroke-width="1.5"/>
+
+      <text x="0" y="242" fill="#38BDF8">$ python3 gate_runner.py --manuscript-file paper1.tex --mode reverify</text>
+      <text x="0" y="266" fill="#34D399">✓ G1_AI_ATTRIBUTION       PASSED  (Antigravity + Gemini + Human Verif)</text>
+      <text x="0" y="288" fill="#34D399">✓ G2_SKILL_LICENSES       PASSED  (All Science DBs cited in .bib)</text>
+      <text x="0" y="310" fill="#34D399">✓ G3_CITATIONS            PASSED  (55/55 live Crossref/DataCite/PubMed)</text>
+      <text x="0" y="332" fill="#34D399">✓ G4_SERVER_SCREENING     PASSED  (arXiv &lt;1920 chars, portable TeX)</text>
+      <text x="0" y="354" fill="#34D399">✓ G5_CLAIM_GROUNDING      PASSED  (In-silico scope explicitly hedged)</text>
+      <text x="0" y="376" fill="#6EE7B7" font-weight="700">✓ G6_REVERIFICATION_SEAL  SEALED_FOR_SUBMISSION (0-byte drift)</text>
+
+      <rect x="0" y="392" width="510" height="28" rx="6" fill="#064E3B"/>
+      <text x="12" y="411" fill="#A7F3D0" font-weight="600">
+        🔒 PreToolUse Hook: ALLOW package_submission.py → paper1_sealed.tar.gz
+      </text>
+    </g>
+  </g>
+</svg>
